@@ -9,11 +9,11 @@ localeTitle: Редукторы Redux
 Теперь редуктор в редуксе должен быть чистой функцией. Чистая функция - это тип функции, которая не имеет дополнительных побочных эффектов. Вы передаете ему некоторые аргументы и возвращает ожидаемый результат. Например:
 
 ```javascript
-function add(a,b) { 
+function add(a, b) { 
  return a + b; 
  } 
  
- const sum = add(5,4); 
+ const sum = add(5, 4); 
 ```
 
 Вышеупомянутая функция чиста, потому что независимо от того, что произойдет, она вернется 9. Функция, которая имеет вызовы ajax внутри нее или что-то вроде доступа к базе данных, не является чистой функцией. Даже если мы мутируем изменение значения, переменное значение можно рассматривать не как чистую функцию.
@@ -21,11 +21,11 @@ function add(a,b) {
 Теперь, чтобы внести изменения в состояние, вы используете редуктор. Вот пример кода редуктора:
 
 ```javascript
- function todoReducer(state= [],action) { 
+ function todoReducer(state = [], action) { 
   case 'ADD_TODO': 
-      return [...state,action.data] 
+      return [...state, action.data] 
   case  'DELETE_TODO': 
-      return state.filter(todo=>todo.id !== action.id) 
+      return state.filter(todo => todo.id !== action.id) 
   default: 
       return state; 
  } 
@@ -36,7 +36,7 @@ function add(a,b) {
 ```javascript
 { 
  type: 'ADD_TODO', 
- data: {name: 'Learn Redux',completed:false} 
+ data: {name: 'Learn Redux', completed: false} 
  } 
 ```
 
