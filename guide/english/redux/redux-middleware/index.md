@@ -2,11 +2,11 @@
 title: Redux Middleware
 ---	
  ## Introduction
- In this guide it will be presented to the reader the basic concept of Redux Middleware.
- If the reader is already experienced with [node.js] and it's server side libraries like [Express] or [Koa], it should by now be familiar with the concept of middleware.
- Either in any of the above libraries, middleware is a piece of code that resides between the framework's incoming request and the response sent.
+ In this guide the basic concept of Redux Middleware will be presented to the reader .
+ If the reader is already experienced with [node.js] and its server side libraries like [Express] or [Koa], they should by now be familiar with the concept of middleware.
+ In any of the above libraries, middleware is a piece of code that resides between the framework's incoming request and the response sent.
    
- For example some third party middlewares that can be applied to both these frameworks are :
+ For example, some third party middleware that can be applied to both these frameworks are :
  * [Helmet] - For some measure of security to applications
  * [Wiston] - For logging purposes
  * [Compression] - For compression of HTTP responses
@@ -20,12 +20,12 @@ title: Redux Middleware
 
  One of the most common middleware packages used in conjunction with Redux is [Thunk](https://github.com/reduxjs/redux-thunk).
  
- More information on what are thunks and how to set it up is located [here](https://guide.freecodecamp.org/redux/redux-thunk)
+ More information on what thunks are and how to set them up is located [here](https://guide.freecodecamp.org/redux/redux-thunk).
  
 
  ## Simple Example
 
- The code bellow ilustrates a simple redux application and it will be used as an example on how a middleware could be implemented.
+ The code bellow ilustrates a simple Redux application and it will be used as an example on how a middleware could be implemented.
    
  ```javascript
  import {createStore} from  "redux";
@@ -54,7 +54,7 @@ title: Redux Middleware
  ```
    
   
- Now to add a simple logging middleware some changes need to be made to the code.
+ Now, to add a simple logging middleware some changes need to be made to the code.
    
  ```javascript
  import {createStore, applyMiddleware} from  "redux";
@@ -164,7 +164,7 @@ An error ocurred: There was an error on your application
 
 #### Creating Middleware
 
-Redux middleware are just functions with the signature
+Redux middleware are just functions with the signature.
 
 ```js
 const reduxMiddleware = store => next => action => {
@@ -172,7 +172,7 @@ const reduxMiddleware = store => next => action => {
 }
 ```
 
-Side Note - The fact that this is a function that takes a store and returns a function that takes a next callback and returns a function that takes an action and performs some middlware operations might look a bit odd. why do that instead of three parameters? Well this is actually a very helpful technique from functional programming called currying and it enables a lot of goodness like partial application. The main difference though is how you call the middleware function.
+Side Note - The fact that this is a function that takes a store and returns a function that takes a next callback and returns a function that takes an action and performs some middleware operations might look a bit odd. Why do that instead of using three parameters? Well, this is actually a very helpful technique from functional programming called "currying" and it enables a lot of goodness like partial application. The main difference though is how you call the middleware function.
 
 ```js
 // calling an uncurried version - NOT how you call the function above
@@ -184,15 +184,15 @@ reduxMiddleware(store)(next)(action)
 
 The parameters here are:
 
-1.) store - your redux store and calling its "getState" method returns the current state of your store.
+1.) store - your Redux store, calling its "getState" method returns the current state of your store.
 ```js
 let currentState = store.getState()
 ```
-2.) next - a callback that you pass an action to continue with the flow of your redux middleware / reducers.
+2.) next - a callback that you pass an action to to continue with the flow of your redux middleware/reducers.
 ```js
 next(action)
 ```
-3.) action - the action dispatched to the store to update state
+3.) action - the action dispatched to the store to update state.
 
 Let's use the information above to create a simple logging middleware that will log "User Updated!" to the console every time an action with type "UPDATE_USER" is dispatched.
 
