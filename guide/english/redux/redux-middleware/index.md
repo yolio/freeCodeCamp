@@ -31,62 +31,62 @@ title: Redux Middleware
  import {createStore} from  "redux";
    
  // the reducer
- const reducer=(initialState=0,action)=>{
-    if (action.type==="INC"){
-        return initialState+1;
+ const reducer = (initialState = 0, action) => {
+    if (action.type === "INC") {
+        return initialState + 1;
     }
-     else if (action.type==="DEC"){
+     else if (action.type === "DEC") {
         return initialState-1;
     }
     return initialState;
-}
+};
    
  // the redux store
- const store= createStore(reducer,1);
+ const store = createStore(reducer, 1);
    
  // some actions that will be dispatched
- store.dispatch({type:"INC"});
- store.dispatch({type:"INC"});
- store.dispatch({type:"INC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"DEC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "DEC"});
  ```
    
   
  Now to add a simple logging middleware some changes need to be made to the code.
    
  ```javascript
- import {createStore, applyMiddleware} from  "redux";
+ import {createStore, applyMiddleware} from "redux";
    
  // the reducer
- const reducer=(initialState=0,action)=>{
-    if (action.type==="INC"){
-        return  initialState+1;
+ const reducer = (initialState = 0, action) => {
+    if (action.type === "INC") {
+        return  initialState + 1;
     }
-    else if (action.type==="DEC"){
-        return  initialState-1;
+    else if (action.type === "DEC") {
+        return  initialState - 1;
     }
     return initialState;
-}
+};
    
  // the logging middleware 
- const logger=(store)=>(next)=>(action)=>{
-  console.log("action fired",action)
+ const logger = (store) => (next) => (action) => {
+  console.log("action fired", action);
   next(action);  // moves along the pipeline to the next middleware or if no more middleware defined to the reducer
- }  
+ } ; 
  
- const middleware=applyMiddleware(logger);
+ const middleware = applyMiddleware(logger);
    
  // the redux store
- const store= createStore(reducer,1,middleware);  // adds the defined middleware to the application
+ const store = createStore(reducer, 1, middleware);  // adds the defined middleware to the application
  // some actions that will be dispatched
- store.dispatch({type:"INC"});
- store.dispatch({type:"INC"});
- store.dispatch({type:"INC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"DEC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "DEC"});
  ```
  When the code finishes running the browser console should output something like the following.
  ```javascript
@@ -105,49 +105,49 @@ title: Redux Middleware
  The code bellow extends the basic logger already implemented and creates a new one for error handling.
 
  ```javascript
- import {createStore, applyMiddleware} from  "redux";
+ import {createStore, applyMiddleware} from "redux";
    
  // the reducer
-  const reducer=(initialState=0,action)=>{
-    if (action.type==="INC"){
-        return initialState+1;
+  const reducer = (initialState = 0, action) => {
+    if (action.type === "INC") {
+        return initialState + 1;
     }
-    else if (action.type==="DEC"){
-        return initialState-1;
+    else if (action.type === "DEC") {
+        return initialState - 1;
     }
-    else if (action.type==="ERROR"){
-        throw new Error("There was an error on your application")
+    else if (action.type === "ERROR") {
+        throw new Error("There was an error in your application");
     }
     return initialState;
-  }
+  };
    
  // the middleware
- const logger=(store)=>(next)=>(action)=>{
-    console.log("action fired",action)
-    next(action)  // moves along the pipeline to the next middleware or if no more middleware defined to the reducer
+ const logger = (store) => (next) => (action) => {
+    console.log("Action fired", action);
+    next(action);  // moves along the pipeline to the next middleware or if no more middleware defined to the reducer
   };
  // the new logging error logger middleware
-const error=(store)=>(next)=>(action)=>{
-    try{
+const error = (store) => (next) => (action) => {
+    try {
       next(action);  // moves along the pipeline to the next middleware or if no more middleware defined to the reducer
     }
-    catch (e){
-      console.log("An error ocurred",e)
+    catch (e) {
+      console.log("An error ocurred", e);
     }
 };
   
- const middleware=applyMiddleware(logger,error);
+ const middleware = applyMiddleware(logger, error);
    
  // the redux store
- const store= createStore(reducer,1,middleware)  // adds the defined middleware to the application
+ const store = createStore(reducer, 1, middleware);  // adds the defined middleware to the application
  // some actions that will be dispatched
- store.dispatch({type:"INC"});
- store.dispatch({type:"INC"});
- store.dispatch({type:"INC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"DEC"});
- store.dispatch({type:"ERROR"})
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "INC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "DEC"});
+ store.dispatch({type: "ERROR"})
 ```
  When the code finishes running the browser console should output something like the following.
  ```javascript
@@ -157,8 +157,8 @@ action fired Object {type: "INC"}
 action fired Object {type: "DEC"}
 action fired Object {type: "DEC"}
 action fired Object {type: "DEC"}
-action fired Object {types:"ERROR"}
-An error ocurred: There was an error on your application
+action fired Object {types: "ERROR"}
+An error ocurred: There was an error in your application
 ```
   
 
@@ -169,7 +169,7 @@ Redux middleware are just functions with the signature
 ```js
 const reduxMiddleware = store => next => action => {
   // do some middleware stuff
-}
+};
 ```
 
 Side Note - The fact that this is a function that takes a store and returns a function that takes a next callback and returns a function that takes an action and performs some middlware operations might look a bit odd. why do that instead of three parameters? Well this is actually a very helpful technique from functional programming called currying and it enables a lot of goodness like partial application. The main difference though is how you call the middleware function.
